@@ -270,7 +270,7 @@ class APIConnection(Connection):
                                   **kwargs)
         return ItemCollection(data=data,
                               item_class=item_class,
-                              _connection=self)
+                              _connection=self, **kwargs)
 
     def get_item(self, command, **kwargs):
         # pylint: disable=W0221
@@ -340,7 +340,7 @@ class ItemCollection(object):
     """
     # pylint: disable=R0903
 
-    def __init__(self, data, item_class, _connection=None):
+    def __init__(self, data, item_class, _connection=None, **kwargs):
         self.total_count = None
         self.items = None
         self.page_number = None

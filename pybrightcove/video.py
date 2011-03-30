@@ -262,6 +262,7 @@ class Video(object):
 
         self.image = None
         self.raw_data = None
+        self.custom_fields = {}
 
         self.connection = _connection
         if not self.connection:
@@ -436,6 +437,8 @@ class Video(object):
             self.tags.append(tag)
         self.thumbnail_url = data['thumbnailURL']
         self.video_still_url = data['videoStillURL']
+
+        self.custom_fields = data.get('customFields', {})
 
     def __setattr__(self, name, value):
         msg = None
@@ -662,12 +665,13 @@ class Video(object):
 
     @staticmethod
     def find_all(_connection=None, page_size=100, page_number=0,
-        sort_by=enums.DEFAULT_SORT_BY, sort_order=enums.DEFAULT_SORT_ORDER):
+        sort_by=enums.DEFAULT_SORT_BY, sort_order=enums.DEFAULT_SORT_ORDER,
+        **kwargs):
         """
         List all videos.
         """
         return connection.ItemResultSet('find_all_videos', Video,
-            _connection, page_size, page_number, sort_by, sort_order)
+            _connection, page_size, page_number, sort_by, sort_order, **kwargs)
 
     @staticmethod
     def find_by_tags(and_tags=None, or_tags=None, _connection=None,
